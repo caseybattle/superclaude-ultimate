@@ -245,17 +245,17 @@ claude /test --visual --pup "compare UI components across browsers"
 
 #### Prerequisites
 ```bash
-# Install Python 3.8+ (required for uvx)
+# Install Python 3.8+ (required for uv)
 python --version  # Should be 3.8.0 or higher
 
-# Install uvx if not already installed
-pip install uvx
+# Install uv package manager if not already installed
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 #### Install Serena
 ```bash
-# Install Serena from GitHub repository
-uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project /home/$(whoami)
+# Run Serena from GitHub repository (uses uvx for temporary execution)
+uvx --from git+https://github.com/oraios/serena serena-mcp-server
 ```
 
 ### GitHub Repository
@@ -269,11 +269,7 @@ uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-
     "args": [
       "--from", 
       "git+https://github.com/oraios/serena", 
-      "serena-mcp-server", 
-      "--context", 
-      "ide-assistant", 
-      "--project", 
-      "/home/$(whoami)"
+      "serena-mcp-server"
     ],
     "description": "AI assistant optimization for cheaper and more powerful Claude Code interactions"
   }
@@ -309,21 +305,21 @@ claude /troubleshoot --investigate --seq --uc
 # Verify Serena is working
 claude --version  # Should show Serena integration
 
-# Check Serena status
-uvx serena-mcp-server --status
+# Test Serena is working
+uvx --from git+https://github.com/oraios/serena serena-mcp-server --help
 ```
 
 ### Troubleshooting Serena
 ```bash
 # Reinstall if issues
-pip install --upgrade uvx
+curl -LsSf https://astral.sh/uv/install.sh | sh
 uvx --from git+https://github.com/oraios/serena serena-mcp-server
 
 # Check Python version
 python --version  # Must be 3.8+
 
 # Verify installation
-uvx serena-mcp-server --help
+uvx --from git+https://github.com/oraios/serena serena-mcp-server --help
 ```
 
 ---
@@ -481,8 +477,8 @@ npx -y @jpisnice/shadcn-ui-mcp-server
 
 # 7. Serena (requires Python)
 echo "Installing Serena..."
-pip install uvx
-uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project $(pwd)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uvx --from git+https://github.com/oraios/serena serena-mcp-server
 
 echo "All MCP servers installed successfully!"
 echo "Remember to set GITHUB_PERSONAL_ACCESS_TOKEN for Shadcn UI"
