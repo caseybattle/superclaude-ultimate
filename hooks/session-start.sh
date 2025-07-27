@@ -54,12 +54,33 @@ if ! check_component "claude-monitor" "claude-monitor" "Usage Monitor"; then
     FRESH_INSTALL=true
 fi
 
-# Check Serena (basic check for uvx)
-if ! command -v uvx &> /dev/null; then
-    echo -e "${YELLOW}⚠️  Missing: Serena dependencies (uvx)${NC}"
-    FRESH_INSTALL=true
+# Check Python version for Serena
+PYTHON_OK=false
+if command -v python3 &> /dev/null; then
+    PYTHON_VERSION=$(python3 --version 2>&1 | grep -Po '(?<=Python )[0-9]+\.[0-9]+' | head -1)
+    PYTHON_MAJOR=$(echo $PYTHON_VERSION | cut -d'.' -f1)
+    PYTHON_MINOR=$(echo $PYTHON_VERSION | cut -d'.' -f2)
+    
+    if [ "$PYTHON_MAJOR" -ge 3 ] && [ "$PYTHON_MINOR" -ge 8 ]; then
+        PYTHON_OK=true
+        echo -e "${GREEN}✅ Found: Python $PYTHON_VERSION (Serena compatible)${NC}"
+    else
+        echo -e "${RED}❌ Python $PYTHON_VERSION too old (need 3.8+)${NC}"
+        FRESH_INSTALL=true
+    fi
 else
-    echo -e "${GREEN}✅ Found: Serena dependencies${NC}"
+    echo -e "${RED}❌ Missing: Python 3.8+ (required for Serena)${NC}"
+    FRESH_INSTALL=true
+fi
+
+# Check Serena dependencies
+if [ "$PYTHON_OK" = true ]; then
+    if ! command -v uvx &> /dev/null; then
+        echo -e "${YELLOW}⚠️  Missing: Serena dependencies (uvx)${NC}"
+        FRESH_INSTALL=true
+    else
+        echo -e "${GREEN}✅ Found: Serena dependencies${NC}"
+    fi
 fi
 
 echo
@@ -75,9 +96,34 @@ if [ "$FRESH_INSTALL" = true ]; then
     echo "• Claude Code CLI (AI assistant)"
     echo "• 6 MCP Servers (specialized tools)"
     echo "• Usage Monitor (track your usage)"
-    echo "• Serena Toolkit (code analysis)"
+    if [ "$PYTHON_OK" = true ]; then
+        echo "• Serena Toolkit (code analysis)"
+    else
+        echo "• Serena Toolkit (${YELLOW}requires Python 3.8+${NC})"
+    fi
     echo
-    echo -e "${BOLD}This is ${GREEN}completely automatic${NC}${BOLD} and takes about 2-3 minutes.${NC}"
+    
+    # Python version warning/guidance
+    if [ "$PYTHON_OK" = false ]; then
+        echo -e "${YELLOW}${BOLD}⚠️  Python Issue Detected:${NC}"
+        if command -v python3 &> /dev/null; then
+            echo "Your Python version ($PYTHON_VERSION) is too old for Serena."
+        else
+            echo "Python 3.8+ is not installed on your system."
+        fi
+        echo
+        echo -e "${BOLD}Options:${NC}"
+        echo "1. Continue without Serena (most features still work)"
+        echo "2. Install Python 3.8+ first, then re-run setup"
+        echo
+        echo -e "${BLUE}Quick Python install:${NC}"
+        echo "• Ubuntu/Debian: sudo apt update && sudo apt install python3.9"
+        echo "• macOS: brew install python@3.9"  
+        echo "• Windows: Download from python.org"
+        echo
+    else
+        echo -e "${BOLD}This is ${GREEN}completely automatic${NC}${BOLD} and takes about 2-3 minutes.${NC}"
+    fi
     echo
     
     # Simple yes/no prompt for non-tech users

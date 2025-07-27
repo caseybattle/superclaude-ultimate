@@ -124,6 +124,8 @@ install_mcp_servers() {
 install_serena() {
     if [ "$SKIP_SERENA" = true ]; then
         warn "Skipping Serena installation (Python requirements not met)"
+        warn "Serena requires Python 3.8+. Install Python 3.8+ and re-run this script."
+        warn "Quick install: sudo apt install python3.9 (Ubuntu) or brew install python@3.9 (macOS)"
         return
     fi
     
@@ -132,14 +134,30 @@ install_serena() {
     # Install uvx if not present
     if ! command -v uvx &> /dev/null; then
         log "Installing uvx..."
-        pip3 install uvx
+        
+        # Try different installation methods
+        if pip3 install uvx 2>/dev/null; then
+            log "uvx installed via pip3"
+        elif python3 -m pip install uvx 2>/dev/null; then
+            log "uvx installed via python3 -m pip"
+        elif python3 -m pip install --user uvx 2>/dev/null; then
+            log "uvx installed via pip --user"
+        else
+            error "Failed to install uvx. Skipping Serena installation."
+            warn "You can install Serena manually later with: pip install uvx"
+            return
+        fi
     fi
     
-    # Install Serena
+    # Install Serena with error handling
     log "Installing Serena from GitHub..."
-    uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project $(pwd)
-    
-    log "Serena installed successfully ✓"
+    if uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project $(pwd) 2>/dev/null; then
+        log "Serena installed successfully ✓"
+    else
+        warn "Serena installation failed. This is often due to Python version issues."
+        warn "Try: 1) Update Python to 3.8+ 2) Run: pip install uvx 3) Re-run this script"
+        warn "SuperClaude will work without Serena, but you'll miss some advanced features."
+    fi
 }
 
 # Install Claude Code Usage Monitor
