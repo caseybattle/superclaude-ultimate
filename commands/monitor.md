@@ -1,4 +1,4 @@
-**Purpose**: Serena AI Dashboard Monitoring and Usage Analytics
+**Purpose**: Claude Code & Serena Usage Monitoring in Terminal
 
 ---
 
@@ -6,76 +6,109 @@
 
 ## Command Execution
 Execute: immediate | --watch→continuous monitoring
-Purpose: "Display Serena dashboard with real-time usage metrics and cost optimization data"
+Purpose: "Display detailed usage statistics and optimization metrics directly in terminal"
 
-Connects to Serena's live dashboard to show actual usage data, horizontal bar graphs, token consumption, and optimization recommendations.
+Shows real-time usage breakdown with horizontal bar graphs, token consumption, cost savings, and performance data directly in the terminal interface.
 
 @include shared/flag-inheritance.yml#Universal_Always
 
 ## Custom Flags
-**--usage**: Focus on token/cost usage statistics
-**--optimize**: Show optimization recommendations from Serena
-**--watch**: Continuous monitoring with auto-refresh
-**--screenshot**: Capture dashboard image for analysis
-**--metrics**: Detailed performance metrics view
+**--usage**: Detailed token and cost usage breakdown
+**--optimize**: Show optimization recommendations and savings
+**--watch**: Continuous monitoring with auto-refresh in terminal
+**--history**: Show usage patterns over time
+**--breakdown**: Detailed component-by-component analysis
 
 ## Examples
-- `/monitor` - Live Serena dashboard with usage graphs
-- `/monitor --usage --screenshot` - Usage stats with screenshot
-- `/monitor --watch` - Continuous dashboard monitoring
+- `/monitor` - Complete usage overview with horizontal bars
+- `/monitor --usage --breakdown` - Detailed usage statistics
+- `/monitor --watch` - Live monitoring in terminal
 - `/monitor --optimize --uc` - Optimization recommendations
+
+## Terminal Display Output
+
+### Usage Statistics with Horizontal Bars
+```
+🔍 CLAUDE CODE USAGE MONITOR
+════════════════════════════════════════════════════════════
+
+📊 TOKEN USAGE (Current Session)
+Input Tokens:     ████████████████████░░░░░░░░  2,847 / 4,096  (69%)
+Output Tokens:    ██████████████░░░░░░░░░░░░░░░░  1,923 / 4,096  (47%)
+Context Used:     ███████████████████████░░░░░░  7,234 / 8,192  (88%)
+
+💰 COST OPTIMIZATION (Serena)
+Original Cost:    $0.42
+Optimized Cost:   $0.18  (57% savings)
+Efficiency:       ███████████████████████████░░  92% optimization
+
+⚡ PERFORMANCE METRICS
+Response Time:    ████████████████████████░░░░░  847ms (avg)
+MCP Calls:        ███████░░░░░░░░░░░░░░░░░░░░░░░  12 active
+Cache Hits:       ███████████████████████████░░  89% hit rate
+
+🎯 USAGE BREAKDOWN
+Commands Used:    /analyze(3), /build(2), /monitor(1)
+Personas Active:  architect, frontend, analyzer
+MCP Servers:      Sequential, Magic, Serena (3/6 active)
+```
+
+### Detailed Component Analysis
+```
+📈 DETAILED USAGE ANALYSIS
+════════════════════════════════════════════════════════════
+
+🧠 COGNITIVE LOAD
+Thinking Tokens:  ██████████████░░░░░░░░░░░░░░░░  1,234 tokens
+Analysis Depth:   ████████████████████░░░░░░░░░  --think-hard (active)
+Memory Usage:     ██████████░░░░░░░░░░░░░░░░░░░░  23 memories stored
+
+🔧 MCP SERVER PERFORMANCE
+Sequential:       ████████████████████████████░  98% (--uc active)
+Magic:           █████████████████████░░░░░░░░░  78% efficiency  
+Serena:          ███████████████████████████░░  94% optimization
+Context7:        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  Inactive
+Puppeteer:       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  Inactive
+
+💡 OPTIMIZATION RECOMMENDATIONS
+1. Consider using --uc with all Sequential calls (saves ~70% tokens)
+2. Context usage at 88% - enable UltraCompressed mode soon
+3. Cache hit rate excellent at 89% - continue current patterns
+4. 3 MCP servers active - optimal for current workload
+```
 
 ## Implementation
 
-### Serena Dashboard Connection
-```javascript
-// Connect to live Serena dashboard
-const dashboardUrl = 'http://127.0.0.1:24282/dashboard/index.html';
+### Data Collection from Serena
+```bash
+# Get real-time metrics from Serena MCP
+serena_stats=$(mcp__serena__read_memory usage_monitoring_status)
 
-// Use Puppeteer to capture real-time data
-await page.goto(dashboardUrl);
-await page.screenshot({ path: 'serena-dashboard.png', fullPage: true });
+# Extract token usage from Claude Code
+token_usage=$(echo $CLAUDE_CODE_USAGE_STATS)
 
-// Extract usage metrics
-const usageData = await page.evaluate(() => {
-  return {
-    tokenUsage: document.querySelector('.token-usage')?.textContent,
-    costSavings: document.querySelector('.cost-savings')?.textContent,
-    optimizationLevel: document.querySelector('.optimization-level')?.textContent
-  };
-});
+# Calculate optimization metrics
+cost_savings=$(calculate_serena_savings)
 ```
 
-### Live Dashboard Features
-1. **Horizontal Bar Graphs**: Real-time token usage visualization
-2. **Cost Optimization**: Savings from Serena's AI optimization  
-3. **Performance Metrics**: Response times and efficiency data
-4. **Usage Patterns**: Historical usage analysis and trends
+### Terminal Visualization
+Uses ASCII progress bars and real-time data:
+- **Horizontal bars** showing percentage filled
+- **Color coding** for different metrics (if terminal supports)
+- **Live updates** when using --watch flag
+- **Detailed breakdowns** of each component
 
-### Dashboard Data Display
-- **Token Usage**: Visual bars showing current consumption vs limits
-- **Cost Metrics**: Real-time cost tracking and savings achieved
-- **Optimization Status**: Current Serena optimization effectiveness
-- **Performance Graphs**: Response times and system efficiency
-
-### Integration with MCP Servers
-Use Puppeteer MCP to:
-- Navigate to Serena dashboard: `mcp__puppeteer__puppeteer_navigate`
-- Capture dashboard screenshots: `mcp__puppeteer__puppeteer_screenshot`
-- Extract usage data: `mcp__puppeteer__puppeteer_evaluate`
-- Monitor real-time updates: `mcp__puppeteer__browser_snapshot`
-
-### Serena Memory Integration
-- Store dashboard snapshots: `mcp__serena__write_memory`
-- Track optimization patterns: `mcp__serena__read_memory dashboard_metrics`
-- Compare performance trends: Historical analysis
+### Integration with Serena Memory
+- Read current session stats: `mcp__serena__read_memory session_usage`
+- Track optimization patterns: `mcp__serena__read_memory optimization_history` 
+- Store monitoring snapshots: `mcp__serena__write_memory monitor_data`
 
 @include shared/execution-patterns.yml#Standard_Workflow_Integration
 
 ## Workflow Integration
-**Pre-Development**: `/monitor --usage` → check current capacity
-**During Development**: `/monitor --watch` → real-time optimization tracking
-**Post-Development**: `/monitor --metrics` → analyze session performance
+**Pre-Development**: `/monitor --usage` → check capacity before starting
+**During Development**: `/monitor --watch` → real-time monitoring in terminal
+**Post-Development**: `/monitor --breakdown` → analyze session efficiency
 
 ---
-*Live connection to Serena dashboard for real-time monitoring*
+*Real-time usage monitoring displayed directly in terminal interface*
