@@ -1,0 +1,27 @@
+{
+  "_deprecated": "This file is deprecated. MCP servers are now configured in settings.local.json",
+  "_migration_date": "2025-07-18",
+  "_note": "Keeping for backward compatibility only. Will be removed in future update.",
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "magic": {
+      "command": "npx",
+      "args": ["-y", "@mseep/magic"]
+    },
+    "ide": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-ide"]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    }
+  }
+}

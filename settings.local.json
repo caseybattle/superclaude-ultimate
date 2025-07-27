@@ -1,0 +1,71 @@
+{
+  "version": "2.0.1",
+  "installMethod": "npm-global",
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "description": "Multi-step problem solving and architectural thinking"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "description": "Official library documentation and examples"
+    },
+    "magic": {
+      "command": "npx",
+      "args": ["-y", "@mseep/magic"],
+      "description": "UI component generation and design system integration"
+    },
+    "ide": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-ide"],
+      "description": "IDE integration for code analysis and diagnostics"
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "description": "E2E testing, performance validation, browser automation"
+    },
+    "serena": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/oraios/serena", "serena-mcp-server", "--context", "ide-assistant", "--project", "/home/casbattle"],
+      "description": "AI assistant optimization for cheaper and more powerful Claude Code interactions"
+    },
+    "shadcn-ui": {
+      "command": "npx",
+      "args": ["-y", "@jpisnice/shadcn-ui-mcp-server"],
+      "description": "Shadcn UI component integration and management",
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "your_token_here"
+      }
+    }
+  },
+  "hooks": {
+    "session_start": "/home/casbattle/.claude/hooks/session-start.sh"
+  },
+  "superclaude": {
+    "version": "2.0.1",
+    "memory_refresh_interval": 300,
+    "compliance_enforcement": true,
+    "auto_command_mapping": true,
+    "evidence_based_required": true,
+    "reminder_system": true,
+    "cleanup_schedule": "weekly"
+  },
+  "tools": {
+    "computer_use": false,
+    "str_replace_editor": true,
+    "bash": true
+  },
+  "rules": [
+    "Always use evidence-based language and avoid superlatives",
+    "Follow the SuperClaude configuration guide for all interactions",
+    "Use TodoWrite for tasks with 3+ steps",
+    "Apply security and performance best practices",
+    "Prefer structured outputs with symbols (→|&|:|»)",
+    "Execute proper SuperClaude commands: /command --flags --persona --mcp",
+    "Map ALL requests to official command syntax from SuperClaude Guide",
+    "Use memory refresh system to maintain protocol compliance"
+  ]
+}

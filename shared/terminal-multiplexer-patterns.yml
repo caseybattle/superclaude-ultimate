@@ -1,0 +1,157 @@
+# Terminal Multiplexer Patterns (tmux)
+# Native terminal management for development workflows
+
+## Terminal_Multiplexer_Overview
+Purpose: "Multiple terminal sessions | Background processes | Persistent sessions | Development efficiency"
+Tool: "tmux (pre-installed on system) | Native Bash integration | No additional setup required"
+Benefits: "Run multiple processes | Monitor logs | Separate concerns | Session persistence"
+Usage_Cost: "No token cost | Native system tool | Efficient resource usage"
+
+## Basic_tmux_Commands
+Session_Management:
+  Create: "tmux new-session -s [name] | Creates new named session"
+  Create_Detached: "tmux new-session -d -s [name] | Creates session in background"
+  List: "tmux list-sessions | Shows all active sessions"
+  Attach: "tmux attach -t [name] | Connect to existing session"
+  Detach: "Ctrl+b then d | Detach from current session"
+  Kill: "tmux kill-session -t [name] | Terminate session"
+
+Window_Management:
+  New_Window: "tmux new-window -t [session] -n [window-name] | Create new window"
+  Switch_Window: "Ctrl+b then [0-9] | Switch to window by number"
+  Rename_Window: "Ctrl+b then , | Rename current window"
+  List_Windows: "tmux list-windows -t [session] | Show all windows"
+
+Pane_Management:
+  Split_Horizontal: "Ctrl+b then % | Split pane horizontally"
+  Split_Vertical: "Ctrl+b then \" | Split pane vertically"
+  Navigate_Panes: "Ctrl+b then arrow keys | Move between panes"
+  Close_Pane: "Ctrl+b then x | Close current pane"
+
+## Development_Workflows
+Frontend_Backend_Split:
+  Setup: |
+    tmux new-session -d -s dev -n frontend
+    tmux send-keys -t dev:frontend 'npm run dev' Enter
+    tmux new-window -t dev -n backend
+    tmux send-keys -t dev:backend 'npm run server' Enter
+    tmux new-window -t dev -n logs
+    tmux attach -t dev
+  Purpose: "Run frontend, backend, and monitor logs simultaneously"
+
+Testing_Workflow:
+  Setup: |
+    tmux new-session -d -s test -n unit
+    tmux send-keys -t test:unit 'npm run test:watch' Enter
+    tmux split-window -t test:unit -h
+    tmux send-keys -t test:unit.1 'npm run test:e2e' Enter
+  Purpose: "Run unit tests and e2e tests side by side"
+
+Build_Monitor:
+  Setup: |
+    tmux new-session -d -s build -n compile
+    tmux send-keys -t build:compile 'npm run build:watch' Enter
+    tmux split-window -t build:compile -v
+    tmux send-keys -t build:compile.1 'tail -f build.log' Enter
+  Purpose: "Monitor build process and logs simultaneously"
+
+## Command_Execution_Patterns
+Run_In_Background:
+  Pattern: "tmux send-keys -t [session]:[window] '[command]' Enter"
+  Example: "tmux send-keys -t dev:backend 'npm run migrate' Enter"
+  Use_Case: "Execute commands without switching context"
+
+Multiple_Commands:
+  Pattern: |
+    tmux new-session -d -s tasks
+    tmux send-keys -t tasks 'cd /project && npm install' Enter
+    tmux send-keys -t tasks 'npm run build' Enter
+  Use_Case: "Queue multiple commands in sequence"
+
+Parallel_Execution:
+  Pattern: |
+    for i in {1..4}; do
+      tmux new-window -t parallel -n "worker$i"
+      tmux send-keys -t parallel:worker$i "npm run process:chunk$i" Enter
+    done
+  Use_Case: "Run parallel tasks in separate windows"
+
+## Integration_With_Commands
+Build_Command:
+  Usage: "tmux for running dev server while building"
+  Example: |
+    /build --feature user-auth --watch
+    # Agent can use: tmux new-window -t dev -n auth-build
+
+Test_Command:
+  Usage: "tmux for continuous testing"
+  Example: |
+    /test --watch --coverage
+    # Agent can use: tmux new-session -d -s test-watch
+
+Deploy_Command:
+  Usage: "tmux for deployment monitoring"
+  Example: |
+    /deploy --env staging
+    # Agent can use: tmux new-window -n deploy-logs
+
+Monitor_Command:
+  Usage: "tmux for persistent monitoring"
+  Example: |
+    /monitor --watch
+    # Agent can use: tmux new-session -d -s monitor
+
+## Best_Practices
+Session_Naming:
+  Convention: "[project]-[purpose] | Examples: myapp-dev, myapp-test, myapp-deploy"
+  Organization: "Group related windows in same session"
+
+Resource_Management:
+  Cleanup: "tmux kill-server | Kills all sessions when done"
+  List_Before_Create: "tmux ls | Check existing sessions first"
+  Reuse_Sessions: "Attach to existing rather than create new"
+
+Error_Handling:
+  Session_Exists: "tmux attach -t [name] || tmux new-session -s [name]"
+  Safe_Execution: "tmux has-session -t [name] 2>/dev/null && echo 'exists' || echo 'not found'"
+
+Development_Efficiency:
+  Quick_Access: "tmux attach | Attaches to most recent session"
+  Status_Line: "Shows session:window.pane at bottom"
+  Copy_Mode: "Ctrl+b then [ | Scroll and copy output"
+
+## Common_Patterns
+Development_Server_Setup:
+  Frontend: "tmux new-window -n frontend && tmux send-keys 'npm run dev' Enter"
+  Backend: "tmux new-window -n backend && tmux send-keys 'npm run server' Enter"
+  Database: "tmux new-window -n db && tmux send-keys 'npm run db:dev' Enter"
+  Logs: "tmux new-window -n logs && tmux send-keys 'tail -f *.log' Enter"
+
+Testing_Setup:
+  Unit: "tmux new-window -n unit && tmux send-keys 'npm run test:unit:watch' Enter"
+  Integration: "tmux new-window -n integration && tmux send-keys 'npm run test:integration' Enter"
+  E2E: "tmux new-window -n e2e && tmux send-keys 'npm run test:e2e' Enter"
+
+Debugging_Setup:
+  App: "tmux new-window -n app && tmux send-keys 'npm run dev:debug' Enter"
+  Inspector: "tmux new-window -n inspector && tmux send-keys 'node --inspect' Enter"
+  Logs: "tmux split-window -v && tmux send-keys 'tail -f debug.log' Enter"
+
+## Quick_Reference
+Essential_Keys:
+  Prefix: "Ctrl+b (default prefix for all commands)"
+  Detach: "Ctrl+b d"
+  New_Window: "Ctrl+b c"
+  Next_Window: "Ctrl+b n"
+  Previous_Window: "Ctrl+b p"
+  List_Windows: "Ctrl+b w"
+  Kill_Window: "Ctrl+b &"
+  Split_Horizontal: "Ctrl+b %"
+  Split_Vertical: "Ctrl+b \""
+  
+Common_Tasks:
+  Check_Sessions: "tmux ls"
+  Attach_Recent: "tmux attach"
+  Create_And_Attach: "tmux new -s [name]"
+  Run_Command: "tmux send-keys -t [target] '[command]' Enter"
+  Kill_All: "tmux kill-server"

@@ -1,0 +1,49 @@
+# CRITICAL RULES SUMMARY
+# ALL non-negotiable rules consolidated in one location
+
+## MANDATORY_SYSTEM_RULES
+Serena_Usage: "ALWAYS use Serena tools (mcp__serena__*) for ALL file operations | Never bypass Serena | Primary interface"
+Sequential_Performance: "ALWAYS use --uc with Sequential thinking | Prevents computer freezing | Mandatory for system stability" 
+Output_Control: "Suppress verbose MCP tool output | Show confirmations only | Auto --uc for operations >500 chars"
+
+## PERFORMANCE_CRITICAL
+Context_Management: "Auto-activate --uc when context >75% | Sequential REQUIRES --uc | High-context operations REQUIRE --uc"
+Auto_Compression: "Trigger --uc for any MCP operation generating >500 chars | Monitor token usage | Prevent system freeze"
+Token_Conservation: "Suppress tool output content display | Brief confirmations only | Prevent token waste"
+
+## EVIDENCE_BASED_STANDARDS
+Prohibited_Language: "best|optimal|faster|secure|better|improved|enhanced|always|never|guaranteed"
+Required_Language: "may|could|potentially|typically|often|sometimes|measured|documented"
+Research_Requirements: "Context7 for external libraries | Official documentation only | Evidence before implementation"
+
+## DEVELOPMENT_STANDARDS
+Git_Safety: "Status→branch→fetch→pull workflow | Uncommitted changes warning | Feature branch usage"
+Testing_Requirements: "TDD patterns | Comprehensive coverage | Quality gates before deployment"
+Security_Standards: "Zero tolerance for vulnerabilities | OWASP compliance | Evidence-based security"
+
+## FLAG_USAGE_PRIORITY
+Universal_Always: "--plan --dry-run --validate --interactive --watch --profile --iterate --threshold"
+MCP_Control: "--c7 --seq --magic --pup --all-mcp --no-mcp"
+Thinking_Modes: "--think --think-hard --ultrathink --introspect"
+Compression: "--uc (MANDATORY with Sequential)"
+
+## COMMAND_PATTERNS
+Simple_Tasks: "Native tools preferred | MCP only when value-adding"
+Complex_Analysis: "Sequential --uc required | Evidence-based approach"
+UI_Development: "Magic for components | Puppeteer for testing | C7 for documentation"
+Security_Operations: "Strict validation | Zero-tolerance mode | Evidence requirements"
+
+## AUTO_ACTIVATION_RULES
+File_Type_Detection: "tsx/jsx→frontend persona | test→qa persona | api→backend persona"
+Keyword_Triggers: "bug/error→analyzer | performance→performance persona | security→security persona"
+Context_Triggers: ">75% context→auto --uc | Sequential usage→mandatory --uc"
+
+## TERMINAL_MANAGEMENT
+tmux_Usage: "Multiple sessions for development | Background processes | Session persistence"
+Development_Patterns: "Frontend/backend split | Testing workflows | Build monitoring"
+Resource_Management: "Clean sessions when done | Reuse existing sessions"
+
+## QUALITY_GATES
+Code_Review: "Evidence-based suggestions | Security validation | Performance checks"
+Deployment: "Comprehensive testing | Security scanning | Performance validation"
+Documentation: "Request-based only | Technical precision | Essential information only"

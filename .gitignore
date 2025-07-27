@@ -1,0 +1,40 @@
+# SuperClaude Repository .gitignore
+
+# Exclude user-specific files
+.credentials.json
+settings.json
+
+# Exclude dynamic/temporary files
+todos/
+shell-snapshots/
+statsig/
+projects/
+ide/
+
+# Exclude build artifacts
+node_modules/
+*.log
+.env
+.env.local
+
+# Exclude OS files
+.DS_Store
+Thumbs.db
+
+# Exclude IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Keep configuration templates but exclude personal configs
+config/notification_states.json
+
+# Exclude any backup files
+*.backup
+*.bak
+*~
+
+# Exclude any personal scripts
+*personal*
+*private*
