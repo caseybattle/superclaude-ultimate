@@ -1,4 +1,4 @@
-**Purpose**: Claude Code usage monitoring and optimization
+**Purpose**: Serena AI Dashboard Monitoring and Usage Analytics
 
 ---
 
@@ -6,56 +6,76 @@
 
 ## Command Execution
 Execute: immediate | --watch→continuous monitoring
-Purpose: "Monitor Claude usage and optimize token consumption"
+Purpose: "Display Serena dashboard with real-time usage metrics and cost optimization data"
 
-Monitor Claude Code usage, token limits, and provide optimization recommendations.
+Connects to Serena's live dashboard to show actual usage data, horizontal bar graphs, token consumption, and optimization recommendations.
 
 @include shared/flag-inheritance.yml#Universal_Always
 
 ## Custom Flags
-**--usage**: Show current usage statistics
-**--optimize**: Suggest optimization strategies  
-**--watch**: Continuous monitoring (real-time)
-**--reset-time**: Show time until reset
-**--history**: Show usage history patterns
+**--usage**: Focus on token/cost usage statistics
+**--optimize**: Show optimization recommendations from Serena
+**--watch**: Continuous monitoring with auto-refresh
+**--screenshot**: Capture dashboard image for analysis
+**--metrics**: Detailed performance metrics view
 
 ## Examples
-- `/monitor` - Basic usage overview
-- `/monitor --usage --optimize` - Usage with optimization tips
-- `/monitor --watch` - Continuous monitoring
-- `/monitor --history --uc` - Compressed history view
+- `/monitor` - Live Serena dashboard with usage graphs
+- `/monitor --usage --screenshot` - Usage stats with screenshot
+- `/monitor --watch` - Continuous dashboard monitoring
+- `/monitor --optimize --uc` - Optimization recommendations
 
 ## Implementation
 
-### Basic Monitoring
-```bash
-# Run monitoring script
-./claude-monitor.sh
+### Serena Dashboard Connection
+```javascript
+// Connect to live Serena dashboard
+const dashboardUrl = 'http://127.0.0.1:24282/dashboard/index.html';
 
-# Check token limit
-echo $CLAUDE_CODE_MAX_OUTPUT_TOKENS
+// Use Puppeteer to capture real-time data
+await page.goto(dashboardUrl);
+await page.screenshot({ path: 'serena-dashboard.png', fullPage: true });
 
-# Quick status
-echo "Token Limit: $CLAUDE_CODE_MAX_OUTPUT_TOKENS"
+// Extract usage metrics
+const usageData = await page.evaluate(() => {
+  return {
+    tokenUsage: document.querySelector('.token-usage')?.textContent,
+    costSavings: document.querySelector('.cost-savings')?.textContent,
+    optimizationLevel: document.querySelector('.optimization-level')?.textContent
+  };
+});
 ```
 
-### Optimization Actions
-1. **High Usage (>80%)**: Enable UltraCompressed mode (--uc)
-2. **Token Limit Exceeded**: Use memory management, shorter responses  
-3. **Near Reset Time**: Plan heavy operations post-reset
-4. **High Burn Rate**: Batch operations, reduce MCP usage
+### Live Dashboard Features
+1. **Horizontal Bar Graphs**: Real-time token usage visualization
+2. **Cost Optimization**: Savings from Serena's AI optimization  
+3. **Performance Metrics**: Response times and efficiency data
+4. **Usage Patterns**: Historical usage analysis and trends
 
-### Integration with Serena
-- Update usage status in memory: `mcp__serena__write_memory`
-- Read previous patterns: `mcp__serena__read_memory usage_monitoring_status`
-- Track optimization effectiveness
+### Dashboard Data Display
+- **Token Usage**: Visual bars showing current consumption vs limits
+- **Cost Metrics**: Real-time cost tracking and savings achieved
+- **Optimization Status**: Current Serena optimization effectiveness
+- **Performance Graphs**: Response times and system efficiency
+
+### Integration with MCP Servers
+Use Puppeteer MCP to:
+- Navigate to Serena dashboard: `mcp__puppeteer__puppeteer_navigate`
+- Capture dashboard screenshots: `mcp__puppeteer__puppeteer_screenshot`
+- Extract usage data: `mcp__puppeteer__puppeteer_evaluate`
+- Monitor real-time updates: `mcp__puppeteer__browser_snapshot`
+
+### Serena Memory Integration
+- Store dashboard snapshots: `mcp__serena__write_memory`
+- Track optimization patterns: `mcp__serena__read_memory dashboard_metrics`
+- Compare performance trends: Historical analysis
 
 @include shared/execution-patterns.yml#Standard_Workflow_Integration
 
 ## Workflow Integration
-**Pre-Development**: `/monitor --usage` → optimize if needed
-**During Development**: `/monitor --watch` → adjust strategy
-**Post-Development**: `/monitor --history` → learn patterns
+**Pre-Development**: `/monitor --usage` → check current capacity
+**During Development**: `/monitor --watch` → real-time optimization tracking
+**Post-Development**: `/monitor --metrics` → analyze session performance
 
 ---
-*Custom command for AspasiaUI project*
+*Live connection to Serena dashboard for real-time monitoring*
