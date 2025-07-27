@@ -57,6 +57,8 @@ claude /analyze --help && claude-monitor --version
 
 **That's it!** You now have the most powerful AI development system ever created.
 
+> 🔔 **First Time?** SuperClaude will automatically detect when setup is needed and guide you through installation with simple yes/no prompts - no technical knowledge required!
+
 ## The Intelligence System
 
 ### **Automatic Expert Assignment**
