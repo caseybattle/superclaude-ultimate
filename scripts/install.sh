@@ -159,16 +159,15 @@ install_serena() {
         fi
     fi
     
-    # Install Serena with correct uv command
-    log "Installing Serena from GitHub using uv..."
-    if uv tool install --from git+https://github.com/oraios/serena serena-mcp-server 2>/dev/null; then
-        log "Serena installed successfully with uv tool ✓"
-    elif uvx --from git+https://github.com/oraios/serena serena-mcp-server 2>/dev/null; then
-        log "Serena installed successfully with uvx fallback ✓"
+    # Install Serena using official method (uvx from GitHub)
+    log "Installing Serena from GitHub using uvx (official method)..."
+    if uvx --from git+https://github.com/oraios/serena serena-mcp-server --help 2>/dev/null >/dev/null; then
+        log "Serena installed successfully with uvx ✓"
+        log "Note: Serena runs via uvx (temporary execution) as recommended by official docs"
     else
-        warn "Serena installation failed. This is often due to Python/uv version issues."
+        warn "Serena installation verification failed. This is often due to Python/uv version issues."
         warn "Manual install: 1) Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
-        warn "2) Then: uv tool install --from git+https://github.com/oraios/serena serena-mcp-server"
+        warn "2) Test with: uvx --from git+https://github.com/oraios/serena serena-mcp-server --help"
         warn "SuperClaude will work without Serena, but you'll miss advanced code analysis features."
     fi
 }
@@ -277,6 +276,7 @@ github_token_reminder() {
 # Verify installation
 verify_installation() {
     log "Verifying installation..."
+    local VERIFICATION_FAILED=false
     
     # Check Claude Code
     if command -v claude &> /dev/null; then
@@ -290,18 +290,47 @@ verify_installation() {
     if claude /analyze --help &> /dev/null; then
         log "SuperClaude commands: ✓"
     else
-        warn "SuperClaude commands may not be properly configured"
+        error "SuperClaude commands are not working"
+        VERIFICATION_FAILED=true
     fi
     
-    # Test MCP integration
+    # Test MCP servers properly
     log "Testing MCP server integration..."
-    if claude /analyze --c7 --help &> /dev/null 2>&1; then
-        log "MCP servers: ✓"
+    
+    # Check if claude mcp command works
+    if claude mcp list &> /dev/null; then
+        # Check for specific MCP servers
+        MCP_OUTPUT=$(claude mcp list 2>/dev/null)
+        
+        if echo "$MCP_OUTPUT" | grep -q "context7\|sequential\|puppeteer"; then
+            log "MCP servers detected: ✓"
+        else
+            warn "MCP servers installed but not properly configured"
+            warn "Run: claude mcp list to see available servers"
+            VERIFICATION_FAILED=true
+        fi
     else
-        warn "Some MCP servers may not be properly configured"
+        error "MCP integration not working - servers may not be installed"
+        error "Manual fix needed: check Claude Code MCP configuration"
+        VERIFICATION_FAILED=true
     fi
     
-    log "Installation verification completed ✓"
+    # Check Claude Code Usage Monitor
+    if command -v claude-monitor &> /dev/null; then
+        log "Claude Code Usage Monitor: ✓"
+    else
+        warn "Claude Code Usage Monitor not found in PATH"
+        warn "May need to restart terminal or add ~/.local/bin to PATH"
+    fi
+    
+    if [ "$VERIFICATION_FAILED" = true ]; then
+        error "Installation verification FAILED - some components not working"
+        error "See errors above and check TROUBLESHOOTING_REAL_WORLD.md"
+        return 1
+    else
+        log "Installation verification completed ✓"
+        return 0
+    fi
 }
 
 # Authentication reminder
@@ -309,10 +338,14 @@ auth_reminder() {
     echo
     log "Next Steps:"
     echo "1. Authenticate with Claude: ${BLUE}claude auth login${NC}"
-    echo "2. Monitor usage: ${BLUE}claude-monitor${NC} or ${BLUE}/monitor${NC}"
-    echo "3. Test your setup: ${BLUE}claude /analyze --help${NC}"
-    echo "4. Try a command: ${BLUE}claude /build --react --magic \"create a button component\"${NC}"
-    echo "5. Read the docs: ${BLUE}cat ~/.claude/QUICK_START.md${NC}"
+    echo "2. ${YELLOW}CREATE 9 AGENTS:${NC} Follow INSTALLATION.md Step 7 to create specialized agents"
+    echo "3. Monitor usage: ${BLUE}claude-monitor${NC} or ${BLUE}/monitor${NC}"
+    echo "4. Test your setup: ${BLUE}claude /analyze --help${NC}"
+    echo "5. Try a command: ${BLUE}claude /build --react --magic \"create a button component\"${NC}"
+    echo "6. Read the docs: ${BLUE}cat ~/.claude/QUICK_START.md${NC}"
+    echo
+    warn "IMPORTANT: Agent creation is required for the complete SuperClaude experience!"
+    warn "Agent files are ready in ~/.claude/agents/ - see INSTALLATION.md for instructions"
     echo
 }
 
@@ -327,14 +360,24 @@ main() {
     install_serena
     install_usage_monitor
     setup_configuration
-    verify_installation
     
     echo
-    log "🎉 SuperClaude Ultimate Framework installation completed!"
-    echo
-    
-    github_token_reminder
-    auth_reminder
+    if verify_installation; then
+        log "🎉 SuperClaude Ultimate Framework installation completed successfully!"
+        echo
+        github_token_reminder
+        auth_reminder
+    else
+        error "🚫 SuperClaude Ultimate Framework installation FAILED!"
+        error "Some components are not working properly."
+        echo
+        echo "Common fixes:"
+        echo "• Restart your terminal and try: claude mcp list"
+        echo "• Check: ~/.claude/TROUBLESHOOTING_REAL_WORLD.md"  
+        echo "• Manual MCP install: see INSTALLATION.md Step 3"
+        echo
+        exit 1
+    fi
     
     echo "You now have access to:"
     echo "• 25 intelligent commands with auto-detection"

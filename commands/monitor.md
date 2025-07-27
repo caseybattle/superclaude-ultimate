@@ -1,6 +1,6 @@
 **Purpose**: Real-time Claude Code Usage Monitoring
 
-**EXECUTE COMMAND**: `claude-monitor --plan custom`
+**EXECUTE COMMAND**: `claude-monitor`
 
 **Description**: Launches the real Claude Code Usage Monitor v3.1.0 with horizontal progress bars, session tracking, burn rate analytics, and cost optimization in terminal.
 

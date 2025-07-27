@@ -98,11 +98,13 @@ npx -y @jpisnice/shadcn-ui-mcp-server
 Serena is crucial for cost optimization and performance:
 
 ```bash
-# Install uvx (if not already installed)
-pip install uvx
+# Install uv package manager (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Install Serena from GitHub
-uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project /home/$(whoami)
+# Run Serena from GitHub (official method - uses uvx for temporary execution)
+uvx --from git+https://github.com/oraios/serena serena-mcp-server --help
+
+# Note: Serena is designed to run via uvx, not be permanently installed
 ```
 
 #### Step 5: Install Claude Code Usage Monitor
@@ -135,7 +137,67 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token_here"
 echo 'export GITHUB_PERSONAL_ACCESS_TOKEN="your_token_here"' >> ~/.bashrc
 ```
 
-#### Step 7: Verify Installation
+#### Step 7: Create the 9 Specialized Agents
+
+SuperClaude includes 9 powerful specialized agents for complex tasks. You need to create these manually in Claude Code:
+
+1. **Open Claude Code and create each agent:**
+
+```bash
+# In Claude Code, use the agent creation feature to create each agent
+# Copy the content from ~/.claude/agents/[agent-name].md for each one
+```
+
+**Required Agents to Create:**
+
+| Agent Name | Purpose | File Location |
+|------------|---------|---------------|
+| `divine-code-architect` | Complete application generation | `~/.claude/agents/divine-code-architect.md` |
+| `master-code-reviewer` | Expert code review | `~/.claude/agents/master-code-reviewer.md` |
+| `database-backend-architect` | Database & backend systems | `~/.claude/agents/database-backend-architect.md` |
+| `performance-optimizer` | Advanced optimization | `~/.claude/agents/performance-optimizer.md` |
+| `devops-deployment-manager` | Production deployment | `~/.claude/agents/devops-deployment-manager.md` |
+| `documentation-writer` | Comprehensive documentation | `~/.claude/agents/documentation-writer.md` |
+| `scrum-manager` | Project management | `~/.claude/agents/scrum-manager.md` |
+| `monetization-strategist` | Revenue strategies | `~/.claude/agents/monetization-strategist.md` |
+| `shadcn-ui-design-reviewer` | UI/UX design review | `~/.claude/agents/shadcn-ui-design-reviewer.md` |
+
+**Step-by-Step Agent Creation:**
+
+For each agent file:
+
+1. **Open the agent file:**
+   ```bash
+   cat ~/.claude/agents/divine-code-architect.md
+   ```
+
+2. **In Claude Code, create a new agent:**
+   - Use Claude Code's agent creation command
+   - Copy the agent name from the YAML frontmatter (`name:`)
+   - Copy the description from the YAML frontmatter (`description:`)
+   - Copy the entire prompt content (everything after the `---`)
+   - Set the color from the YAML frontmatter (`color:`)
+
+3. **Repeat for all 9 agents**
+
+**Quick Setup Script (Advanced Users):**
+
+```bash
+# This script will display each agent for easy copying
+for agent in divine-code-architect master-code-reviewer database-backend-architect performance-optimizer devops-deployment-manager documentation-writer scrum-manager monetization-strategist shadcn-ui-design-reviewer; do
+    echo "=========================================="
+    echo "AGENT: $agent"
+    echo "=========================================="
+    cat ~/.claude/agents/$agent.md
+    echo ""
+    echo "Press Enter to continue to next agent..."
+    read
+done
+```
+
+**Note:** Agent creation is a one-time setup. Once created, these agents will be available globally in Claude Code.
+
+#### Step 8: Verify Installation
 ```bash
 # Test basic functionality
 claude /analyze --help
@@ -190,7 +252,7 @@ Your `~/.claude/settings.local.json` should contain:
     },
     "serena": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/oraios/serena", "serena-mcp-server", "--context", "ide-assistant", "--project", "/home/$(whoami)"],
+      "args": ["--from", "git+https://github.com/oraios/serena", "serena-mcp-server"],
       "description": "AI assistant optimization for cheaper and more powerful Claude Code interactions"
     },
     "shadcn-ui": {

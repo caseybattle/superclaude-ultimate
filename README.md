@@ -5,24 +5,23 @@
 [![Production Ready](https://img.shields.io/badge/Production-Ready-green.svg)](https://github.com/caseybattle/superclaude-ultimate)
 [![MCP Servers](https://img.shields.io/badge/MCP-6_Servers-purple.svg)](docs/07-mcp-servers.md)
 
-> **The most comprehensive AI-powered development framework ever created**  
-> A complete ecosystem with 25 intelligent commands, 9 expert personas, 6 MCP servers, and 9 specialized agents that automatically detect what you need and assign the right expert with the right tools.
+**A comprehensive AI development framework** built on Claude Code with intelligent command routing, expert personas, and specialized tool integration.
 
 ## What's Included
 
-SuperClaude Ultimate includes **two types of components**:
+SuperClaude Ultimate provides **two types of components**:
 
-### 🏗️ **Built-In Framework**
-- **25 Commands** → Complete command system (included in repo)
-- **9 Personas** → Expert cognitive specialists (included in repo)  
-- **9 Agents** → Specialized task handlers (included in repo)
-- **Universal Flags** → Inheritance system (included in repo)
-- **Configuration** → Complete setup files (included in repo)
+### **Built-In Framework**
+- **25 Commands** - Complete command system (included in repo)
+- **9 Personas** - Expert cognitive specialists (included in repo)  
+- **9 Agents** - Specialized task handlers (included in repo)
+- **Universal Flags** - Inheritance system (included in repo)
+- **Configuration** - Complete setup files (included in repo)
 
-### 📦 **Auto-Installed Tools** 
-- **6 MCP Servers** → Installed by our scripts during setup
-- **Claude Code Usage Monitor** → Installed by our scripts during setup
-- **Serena Toolkit** → Installed by our scripts during setup
+### **Auto-Installed Tools** 
+- **6 MCP Servers** - Installed by our scripts during setup
+- **Claude Code Usage Monitor** - Installed by our scripts during setup
+- **Serena Toolkit** - Installed by our scripts during setup
 
 ## What Makes This Special
 
@@ -30,34 +29,48 @@ SuperClaude doesn't just give you AI assistance - it gives you a **complete deve
 
 | **Your Request** | **Auto-Detected Expert** | **Tools Used** | **Result** |
 |------------------|---------------------------|----------------|------------|
-| "Build me a React app" | `--persona-frontend` + Magic MCP | `/build --react --magic` | Complete React application |
-| "This code is slow" | `--persona-performance` + Puppeteer | `/analyze --profile --pup` | Performance optimization |
-| "Create a mobile app" | `divine-code-architect` agent | All tools | Production-ready mobile app |
-| "Security audit needed" | `--persona-security` + Sequential | `/scan --security --owasp` | Complete security analysis |
+| "Build me a React app" | `--persona-frontend` + Magic MCP | `/build --react --magic` | React application with components |
+| "This code is slow" | `--persona-performance` + Puppeteer | `/analyze --profile --pup` | Performance analysis and optimization |
+| "Create a mobile app" | `divine-code-architect` agent | All tools | Mobile application framework |
+| "Security audit needed" | `--persona-security` + Sequential | `/scan --security --owasp` | Security analysis and recommendations |
 
 ![SuperClaude Demo](docs/images/superclaude-demo.gif)
 
-## Quick Start (3 Commands)
+## Quick Start (ONE COMMAND!)
 
 ```bash
-# 1. Clone the framework (gets commands, personas, agents, config)
-git clone https://github.com/caseybattle/superclaude-ultimate ~/.claude
-
-# 2. Run one-click installation (auto-installs MCP servers, monitor, Serena)
-chmod +x ~/.claude/scripts/install.sh && ~/.claude/scripts/install.sh
-
-# 3. Test everything works
-claude /analyze --help && claude-monitor --version
+# Complete automatic setup - everything included!
+git clone https://github.com/caseybattle/superclaude-ultimate ~/.claude && ~/.claude/scripts/auto-setup.sh
 ```
 
-**What Just Happened:**
-- ✅ **Downloaded**: 25 commands, 9 personas, 9 agents, config files
-- ✅ **Auto-installed**: 6 MCP servers, Usage Monitor, Serena toolkit  
-- ✅ **Ready**: Complete AI development system with monitoring
+**That's it!** 2-3 minutes later you have:
+- ✅ All 25 commands working
+- ✅ All 9 personas active
+- ✅ All 9 agents auto-created
+- ✅ All MCP servers configured
+- ✅ Usage monitoring active
+- ✅ Complete AI development environment
 
-**That's it!** You now have the most powerful AI development system ever created.
+### Alternative: Step-by-Step Installation
 
-> 🔔 **First Time?** SuperClaude will automatically detect when setup is needed and guide you through installation with simple yes/no prompts - no technical knowledge required!
+```bash
+# 1. Clone the framework
+git clone https://github.com/caseybattle/superclaude-ultimate ~/.claude
+
+# 2. Run automatic setup
+~/.claude/scripts/auto-setup.sh
+```
+
+**What Gets Auto-Installed:**
+- **Core Framework**: 25 commands, 9 personas, complete configuration
+- **Specialized Tools**: 6 MCP servers, Usage Monitor, Serena toolkit  
+- **Intelligent Agents**: 9 agents auto-created via Claude Code
+- **Optional Enhancements**: Original frameworks (with user permission)
+- **Result**: Complete AI development system ready to use
+
+**Installation complete.** SuperClaude Ultimate is now ready for use.
+
+**Note:** SuperClaude will automatically detect when setup is needed and guide you through installation with simple prompts.
 
 ## The Intelligence System
 
@@ -163,7 +176,7 @@ Running: Full application generation workflow
 - **Installation** → Automatically installed by our setup scripts
 - **Creator** → [Maciek-roboblog/Claude-Code-Usage-Monitor](https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor)
 
-## 🚀 **25 Intelligent Commands**
+## **25 Intelligent Commands**
 
 ### **Development Commands**
 - `/build` → Universal project builder with stack templates
@@ -189,7 +202,7 @@ Running: Full application generation workflow
 
 **[See all 25 commands →](docs/04-commands-reference.md)**
 
-## 🏁 **Universal Flag System**
+## **Universal Flag System**
 
 ### **Always Available (Work with ALL commands)**
 ```bash
@@ -231,7 +244,7 @@ Running: Full application generation workflow
 
 **[Complete flag system guide →](docs/08-flag-system.md)**
 
-## 💡 **Real-World Usage Examples**
+## **Real-World Usage Examples**
 
 ### **Scenario 1: "I have a bug in my React app"**
 ```bash
@@ -307,12 +320,13 @@ $ claude "This API endpoint is taking 3 seconds to respond"
    - Performance monitoring added
 ```
 
-## 📚 **Complete Documentation**
+## **Complete Documentation**
 
 | Document | Description |
 |----------|-------------|
 | [Quick Start](docs/01-quick-start.md) | Get running in 5 minutes |
-| [Installation Guide](docs/02-installation.md) | Complete setup instructions |
+| [Installation Guide](INSTALLATION.md) | Complete setup instructions |
+| [Agent Setup Guide](AGENT_SETUP_GUIDE.md) | **REQUIRED:** Create 9 specialized agents |
 | [System Overview](docs/03-system-overview.md) | How the intelligence works |
 | [Commands Reference](docs/04-commands-reference.md) | All 25 commands + examples |
 | [Personas Guide](docs/05-personas-guide.md) | 9 expert personas + activation |
@@ -323,7 +337,7 @@ $ claude "This API endpoint is taking 3 seconds to respond"
 | [Troubleshooting](docs/10-troubleshooting.md) | Solutions to common issues |
 | [Advanced Features](docs/11-advanced-features.md) | Power user capabilities |
 
-## 🔧 **Installation**
+## **Installation**
 
 ### **Prerequisites**
 - Node.js 18+ and npm
@@ -343,7 +357,7 @@ claude /analyze --help
 ### **Manual Installation**
 See [detailed installation guide](INSTALLATION.md) for step-by-step instructions.
 
-## ⚡ **Performance & Optimization**
+## **Performance & Optimization**
 
 ### **Critical Performance Rules**
 1. **ALWAYS use `--uc` with `--seq`** (prevents system freezing)
@@ -357,7 +371,7 @@ See [detailed installation guide](INSTALLATION.md) for step-by-step instructions
 - **Complex analysis:** Sequential + --uc (medium tokens)  
 - **Complete applications:** Custom agents (high tokens, high value)
 
-## 🔒 **Security & Quality Standards**
+## **Security & Quality Standards**
 
 - ✅ **OWASP Top 10** integration with automated scanning
 - ✅ **Zero-trust architecture** by default
@@ -366,22 +380,22 @@ See [detailed installation guide](INSTALLATION.md) for step-by-step instructions
 - ✅ **Compliance documentation** automatically generated
 - ✅ **Code quality gates** enforced throughout development
 
-## 🤝 **Contributing**
+## **Contributing**
 
 We welcome contributions! Please see our [Contributing Guide](docs/12-contributing.md) for details.
 
-## 📄 **License**
+## **License**
 
 MIT License - Use freely in personal and commercial projects.
 
-## 🌟 **Why SuperClaude is Different**
+## **Why SuperClaude is Different**
 
-- **🧠 Intelligent:** Automatically detects what you need and assigns the right expert
-- **🚀 Complete:** 25 commands, 9 personas, 6 MCP servers, 9 agents - everything included
-- **⚡ Fast:** One-click installation, auto-optimization, smart caching
-- **🔒 Secure:** Enterprise-grade security standards built-in
-- **📚 Professional:** Masterpiece-level documentation and examples
-- **🎯 Production-Ready:** Used for real applications and serious development
+- **Intelligent:** Automatically detects what you need and assigns the right expert
+- **Complete:** 25 commands, 9 personas, 6 MCP servers, 9 agents - everything included
+- **Fast:** One-click installation, auto-optimization, smart caching
+- **Secure:** Enterprise-grade security standards built-in
+- **Professional:** Comprehensive documentation and examples
+- **Production-Ready:** Used for real applications and serious development
 
 ## Acknowledgments & Credits
 
@@ -399,9 +413,9 @@ This framework was inspired by and built upon the excellent work of:
 
 ### MCP Server Creators
 - **[Context7](https://github.com/upstash/context7-mcp)** by **Upstash** - Official library documentation lookup
-- **[Sequential Thinking](https://github.com/modelcontextprotocol/server-sequential-thinking)** by **Anthropic** - Complex multi-step analysis
+- **[Sequential Thinking](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking)** by **Anthropic** - Complex multi-step analysis
 - **[Magic](https://github.com/mseep/magic)** by **mseep** - UI component generation
-- **[Puppeteer Server](https://github.com/modelcontextprotocol/server-puppeteer)** by **Anthropic** - Browser automation and testing
+- **[Puppeteer Server](https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer)** by **Anthropic** - Browser automation and testing
 - **[Shadcn UI MCP](https://github.com/jpisnice/shadcn-ui-mcp-server)** by **jpisnice** - Design system components
 
 ### Special Thanks

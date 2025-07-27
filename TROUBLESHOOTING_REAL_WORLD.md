@@ -1,8 +1,8 @@
-# 🛠️ Real-World Troubleshooting Guide
+# Real-World Troubleshooting Guide
 
 Based on actual installation experiences and issues encountered by users.
 
-## 🐍 Python Version Issues (Most Common)
+## Python Version Issues (Most Common)
 
 ### Problem: Serena Installation Fails at 90%
 **Symptom:** Everything installs fine until Serena, then you get Python-related errors.
@@ -56,7 +56,7 @@ cd ~/.claude
 ./scripts/install.sh
 ```
 
-## 🔧 Serena Installation Issues (CORRECTED)
+## Serena Installation Issues (CORRECTED)
 
 ### Problem: Serena Requires 'uv' not 'uvx'
 **Symptom:** Installation fails with "uvx not found" or similar
@@ -78,7 +78,7 @@ uv tool install --from git+https://github.com/oraios/serena serena-mcp-server
 uv tool list | grep serena
 ```
 
-## 📦 Package Manager Issues
+## Package Manager Issues
 
 ### Problem: "externally-managed-environment" Error
 **Symptom:** Can't install packages with pip
@@ -106,7 +106,7 @@ source ~/.bashrc
 # Or restart your terminal
 ```
 
-## 🔧 Node.js Issues
+## Node.js Issues
 
 ### Problem: Claude Code CLI Won't Install
 **Symptom:** npm errors when installing Claude Code
@@ -135,21 +135,33 @@ echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## 🚫 MCP Server Issues
+## MCP Server Issues
 
-### Problem: MCP Servers Don't Show Up
-**Check Installation:**
+### Problem: MCP Servers Don't Show Up (MOST COMMON ISSUE)
+**Symptom:** Installation says "100% complete" but `claude mcp list` shows no servers
+
+**Root Cause:** MCP servers need to be added to Claude Code configuration, not just installed
+
+**Check What's Actually There:**
 ```bash
 claude mcp list
-# Should show: sequential-thinking, context7, magic, etc.
+# Should show: sequential-thinking, context7, puppeteer, etc.
+# If empty or shows "No MCP servers configured", they're not properly added
 ```
 
-**Re-install if missing:**
+**Fix Method 1 - Use Claude CLI to add servers:**
 ```bash
-npx -y @modelcontextprotocol/server-sequential-thinking
-npx -y @upstash/context7-mcp
-npx -y @mseep/magic
+# Add each server properly to Claude configuration
+claude mcp add sequential-thinking -- npx -y @modelcontextprotocol/server-sequential-thinking
+claude mcp add context7 -- npx -y @upstash/context7-mcp  
+claude mcp add puppeteer -- npx -y @modelcontextprotocol/server-puppeteer
+
+# Verify they're now listed
+claude mcp list
 ```
+
+**Fix Method 2 - Manual configuration:**
+Edit `~/.claude/settings.local.json` to include MCP servers (see INSTALLATION.md for complete configuration)
 
 ### Problem: Sequential MCP Freezes System
 **Solution:** Always use `--uc` flag
@@ -161,7 +173,7 @@ claude /analyze --seq --uc
 claude /analyze --seq
 ```
 
-## 💻 Platform-Specific Issues
+## Platform-Specific Issues
 
 ### WSL (Windows Subsystem for Linux)
 ```bash
@@ -190,7 +202,7 @@ sudo apt update
 sudo apt install python3.9
 ```
 
-## 🔍 Diagnostic Commands
+## Diagnostic Commands
 
 ### Full System Check
 ```bash
@@ -203,7 +215,7 @@ echo "npm: $(npm --version 2>&1)"
 echo "Git: $(git --version 2>&1)"
 echo "Claude CLI: $(claude --version 2>&1)"
 echo "Monitor: $(claude-monitor --version 2>&1)"
-echo "uvx: $(uvx --version 2>&1)"
+echo "uv: $(uv --version 2>&1)"
 echo "PATH: $PATH"
 ```
 
@@ -213,10 +225,10 @@ echo "PATH: $PATH"
 claude /analyze --help          # SuperClaude commands
 claude mcp list                 # MCP servers
 claude-monitor --version        # Usage monitor
-uvx --help                      # Serena dependencies
+uv --help                       # Serena dependencies
 ```
 
-## 🆘 Getting Help
+## Getting Help
 
 ### Information to Include When Asking for Help
 1. **Operating System:** Windows/macOS/Linux version
@@ -229,7 +241,7 @@ uvx --help                      # Serena dependencies
 - **GitHub Issues:** https://github.com/caseybattle/superclaude-ultimate/issues
 - **Include Diagnostics:** Run the system check above and paste results
 
-## 🔄 Start Over (Nuclear Option)
+## Start Over (Nuclear Option)
 
 If everything is broken:
 ```bash
@@ -244,14 +256,41 @@ cd ~/.claude
 ./scripts/install.sh
 ```
 
-## ✅ Success Indicators
+## Success Indicators
 
 You know everything is working when:
 ```bash
 claude /analyze --help          # Shows SuperClaude commands
 claude-monitor                  # Shows usage monitor with bars
-claude /monitor                 # Works without errors
+claude /monitor                 # Launches monitor in terminal
 claude /build --react --magic   # Can build components
 ```
 
-**These solutions are based on real user experiences - they work!** 🚀
+### Monitor Command Issues
+
+**Problem**: `/monitor` says "monitoring is now running" but shows no terminal output
+**Cause**: Monitor may be waiting for usage data or have log access issues
+
+**Solutions:**
+```bash
+# Try direct monitor command
+claude-monitor
+
+# If that doesn't work, try with debug
+claude-monitor --debug
+
+# Or try different plan detection
+claude-monitor --plan pro
+
+# Check if monitor can access Claude logs
+ls ~/.claude/logs/ 2>/dev/null || echo "No log directory found"
+```
+
+**Expected behavior**: Monitor should show horizontal progress bars like:
+```
+📊 TOKEN USAGE (Current Session)
+Input Tokens:     ████████████████████░░░░░░░░  2,847 / 4,096  (69%)
+Output Tokens:    ██████████████░░░░░░░░░░░░░░░░  1,923 / 4,096  (47%)
+```
+
+**These solutions are based on real user experiences - they work!**

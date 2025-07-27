@@ -102,6 +102,10 @@ if [ "$FRESH_INSTALL" = true ]; then
         echo "• Serena Toolkit (${YELLOW}requires Python 3.8+${NC})"
     fi
     echo
+    echo -e "${YELLOW}${BOLD}⚠️  IMPORTANT:${NC} After installation, you'll need to manually create"
+    echo "9 specialized agents in Claude Code. Agent files are provided in ~/.claude/agents/"
+    echo "See INSTALLATION.md for step-by-step agent creation instructions."
+    echo
     
     # Python version warning/guidance
     if [ "$PYTHON_OK" = false ]; then
