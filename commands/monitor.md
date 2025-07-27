@@ -79,29 +79,52 @@ Puppeteer:       ░░░░░░░░░░░░░░░░░░░░░
 
 ## Implementation
 
-### Data Collection from Serena
+### Claude Code Usage Monitor (Maciek-roboblog)
+Uses the installed claude-monitor tool for real-time monitoring:
+
 ```bash
-# Get real-time metrics from Serena MCP
-serena_stats=$(mcp__serena__read_memory usage_monitoring_status)
+# Basic monitoring with horizontal progress bars
+claude-monitor
 
-# Extract token usage from Claude Code
-token_usage=$(echo $CLAUDE_CODE_USAGE_STATS)
+# Alternative command names
+claude-code-monitor    # Full descriptive name
+cmonitor              # Short alias  
+ccmonitor             # Short alternative
+ccm                   # Shortest alias
 
-# Calculate optimization metrics
-cost_savings=$(calculate_serena_savings)
+# Plan-specific monitoring
+claude-monitor --plan pro          # Claude Pro (19k tokens)
+claude-monitor --plan max5         # Claude Max5 (88k tokens)
+claude-monitor --plan max20        # Claude Max20 (220k tokens)
+claude-monitor --plan custom       # Auto-detection with P90 analysis
 ```
 
-### Terminal Visualization
-Uses ASCII progress bars and real-time data:
-- **Horizontal bars** showing percentage filled
-- **Color coding** for different metrics (if terminal supports)
-- **Live updates** when using --watch flag
-- **Detailed breakdowns** of each component
+### Advanced Features
+- **P90 Analysis**: Machine learning-based limit detection
+- **Burn Rate Calculation**: Predicts session exhaustion
+- **Cost Analytics**: Model-specific pricing with cache tokens
+- **Session Tracking**: 5-hour rolling windows
+- **Multi-view Support**: realtime, daily, monthly analysis
 
-### Integration with Serena Memory
-- Read current session stats: `mcp__serena__read_memory session_usage`
-- Track optimization patterns: `mcp__serena__read_memory optimization_history` 
-- Store monitoring snapshots: `mcp__serena__write_memory monitor_data`
+### Configuration Options
+```bash
+# Custom refresh rates
+claude-monitor --refresh-rate 5 --refresh-per-second 1.0
+
+# Timezone and time format
+claude-monitor --timezone America/New_York --time-format 24h
+
+# Theme and display
+claude-monitor --theme dark --view realtime
+
+# Reset schedule
+claude-monitor --reset-hour 9
+```
+
+### Integration with SuperClaude
+- Store monitoring data: `mcp__serena__write_memory monitor_results`
+- Track usage patterns: `mcp__serena__read_memory usage_monitoring_status`
+- Compare optimization effectiveness across sessions
 
 @include shared/execution-patterns.yml#Standard_Workflow_Integration
 
