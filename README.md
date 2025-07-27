@@ -129,8 +129,14 @@ Running: Full application generation workflow
 - **Sequential** → Complex multi-step analysis  
 - **Magic** → UI component generation
 - **Puppeteer** → Browser automation & testing
-- **Serena** → AI optimization & cost reduction
+- **Serena** → Semantic code analysis & editing toolkit
 - **Shadcn UI** → Design system components
+
+### **Claude Code Usage Monitor (Integrated)**
+- **Real-time monitoring** → Horizontal progress bars in terminal
+- **Session tracking** → 5-hour windows with burn rate analytics
+- **Cost optimization** → Model-specific pricing with P90 analysis
+- **Plan detection** → Pro/Max5/Max20/Custom with auto-switching
 
 ## 🚀 **25 Intelligent Commands**
 
@@ -359,7 +365,8 @@ This framework was inspired by and built upon the excellent work of:
 ### Core Inspirations
 - **[SuperClaude Framework](https://github.com/NomenAK/SuperClaude)** by **NomenAK** - Original SuperClaude configuration framework (5.7K+ stars)
 - **[SuperClaude v3](https://github.com/SuperClaude-Org/SuperClaude_Framework)** by **SuperClaude-Org** - Advanced development framework with specialized commands and cognitive personas
-- **[Serena](https://github.com/oraios/serena)** by **Oraios AI** - Powerful coding agent toolkit providing semantic retrieval and AI optimization capabilities
+- **[Serena](https://github.com/oraios/serena)** by **Oraios AI** - Powerful coding agent toolkit providing semantic retrieval and editing capabilities (MCP server integration)
+- **[Claude Code Usage Monitor](https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor)** by **Maciek-roboblog** - Real-time terminal monitoring with horizontal progress bars and advanced analytics
 
 ### Foundation Technologies
 - **[Claude Code](https://github.com/anthropics/claude-code)** by **Anthropic** - The foundational AI development platform
@@ -374,7 +381,8 @@ This framework was inspired by and built upon the excellent work of:
 
 ### Special Thanks
 - The **NomenAK community** for pioneering the SuperClaude concept and making it open source
-- **Oraios AI** for creating Serena's cost-effective AI optimization that makes this framework accessible
+- **Oraios AI** for creating Serena's powerful semantic code toolkit that revolutionizes how AI assistants understand and edit code
+- **Maciek-roboblog** for the comprehensive Claude Code Usage Monitor that provides essential real-time usage analytics
 - **Anthropic** for Claude Code and the MCP ecosystem that powers these integrations
 - All the **open source contributors** who built the tools and servers this framework integrates
 

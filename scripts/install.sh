@@ -127,7 +127,7 @@ install_serena() {
         return
     fi
     
-    log "Installing Serena optimization system..."
+    log "Installing Serena semantic code toolkit..."
     
     # Install uvx if not present
     if ! command -v uvx &> /dev/null; then
@@ -140,6 +140,30 @@ install_serena() {
     uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project $(pwd)
     
     log "Serena installed successfully ✓"
+}
+
+# Install Claude Code Usage Monitor
+install_usage_monitor() {
+    log "Installing Claude Code Usage Monitor..."
+    
+    # Try uv first (recommended), fallback to pip
+    if command -v uv &> /dev/null; then
+        log "Installing with uv..."
+        uv tool install claude-monitor
+    elif command -v pipx &> /dev/null; then
+        log "Installing with pipx..."
+        pipx install claude-monitor
+    else
+        log "Installing with pip..."
+        pip3 install claude-monitor
+        
+        # Add to PATH reminder
+        if ! command -v claude-monitor &> /dev/null; then
+            warn "Add ~/.local/bin to PATH: export PATH=\"\$HOME/.local/bin:\$PATH\""
+        fi
+    fi
+    
+    log "Claude Code Usage Monitor installed successfully ✓"
 }
 
 # Setup configuration files
@@ -234,9 +258,10 @@ auth_reminder() {
     echo
     log "Next Steps:"
     echo "1. Authenticate with Claude: ${BLUE}claude auth login${NC}"
-    echo "2. Test your setup: ${BLUE}claude /analyze --help${NC}"
-    echo "3. Try a command: ${BLUE}claude /build --react --magic \"create a button component\"${NC}"
-    echo "4. Read the docs: ${BLUE}cat ~/.claude/QUICK_START.md${NC}"
+    echo "2. Monitor usage: ${BLUE}claude-monitor${NC} or ${BLUE}/monitor${NC}"
+    echo "3. Test your setup: ${BLUE}claude /analyze --help${NC}"
+    echo "4. Try a command: ${BLUE}claude /build --react --magic \"create a button component\"${NC}"
+    echo "5. Read the docs: ${BLUE}cat ~/.claude/QUICK_START.md${NC}"
     echo
 }
 
@@ -249,6 +274,7 @@ main() {
     install_claude_code
     install_mcp_servers
     install_serena
+    install_usage_monitor
     setup_configuration
     verify_installation
     

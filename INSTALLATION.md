@@ -105,7 +105,24 @@ pip install uvx
 uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project /home/$(whoami)
 ```
 
-#### Step 5: Configure GitHub Token (For Shadcn UI)
+#### Step 5: Install Claude Code Usage Monitor
+
+Essential for real-time usage monitoring with horizontal progress bars:
+
+```bash
+# Install with uv (recommended)
+uv tool install claude-monitor
+
+# Alternative installation methods
+pip install claude-monitor
+# or
+pipx install claude-monitor
+
+# Verify installation
+claude-monitor --version
+```
+
+#### Step 6: Configure GitHub Token (For Shadcn UI)
 
 The Shadcn UI MCP server requires a GitHub personal access token:
 
@@ -118,7 +135,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN="your_token_here"
 echo 'export GITHUB_PERSONAL_ACCESS_TOKEN="your_token_here"' >> ~/.bashrc
 ```
 
-#### Step 6: Verify Installation
+#### Step 7: Verify Installation
 ```bash
 # Test basic functionality
 claude /analyze --help
@@ -129,6 +146,10 @@ claude /build --magic --help
 
 # Test Serena integration
 claude --version
+
+# Test Claude Code Usage Monitor
+claude-monitor --help
+cmonitor --plan custom
 ```
 
 ## Configuration Details
