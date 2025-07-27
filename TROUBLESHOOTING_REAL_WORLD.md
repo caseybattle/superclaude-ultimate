@@ -56,6 +56,28 @@ cd ~/.claude
 ./scripts/install.sh
 ```
 
+## 🔧 Serena Installation Issues (CORRECTED)
+
+### Problem: Serena Requires 'uv' not 'uvx'
+**Symptom:** Installation fails with "uvx not found" or similar
+
+**Root Cause:** Serena requires the `uv` package manager, not `uvx`
+
+**Correct Installation:**
+```bash
+# 1. Install uv package manager
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. Restart terminal or reload PATH
+source ~/.bashrc
+
+# 3. Install Serena with uv
+uv tool install --from git+https://github.com/oraios/serena serena-mcp-server
+
+# 4. Verify installation
+uv tool list | grep serena
+```
+
 ## 📦 Package Manager Issues
 
 ### Problem: "externally-managed-environment" Error

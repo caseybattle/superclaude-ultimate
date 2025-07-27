@@ -73,13 +73,13 @@ else
     FRESH_INSTALL=true
 fi
 
-# Check Serena dependencies
+# Check Serena dependencies (CORRECTED)
 if [ "$PYTHON_OK" = true ]; then
-    if ! command -v uvx &> /dev/null; then
-        echo -e "${YELLOW}⚠️  Missing: Serena dependencies (uvx)${NC}"
+    if ! command -v uv &> /dev/null; then
+        echo -e "${YELLOW}⚠️  Missing: Serena dependencies (uv package manager)${NC}"
         FRESH_INSTALL=true
     else
-        echo -e "${GREEN}✅ Found: Serena dependencies${NC}"
+        echo -e "${GREEN}✅ Found: Serena dependencies (uv)${NC}"
     fi
 fi
 

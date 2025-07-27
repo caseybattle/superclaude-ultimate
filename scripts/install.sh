@@ -89,38 +89,49 @@ install_claude_code() {
     fi
 }
 
-# Install MCP Servers
+# Install MCP Servers (CORRECTED)
 install_mcp_servers() {
     log "Installing MCP servers..."
     
-    # Context7 - Library documentation
-    log "Installing Context7..."
-    npx -y @upstash/context7-mcp
+    # Check if Claude CLI is available for proper MCP installation
+    if command -v claude &> /dev/null; then
+        log "Using Claude CLI for MCP installation (preferred method)..."
+        
+        # Context7 - Library documentation
+        log "Installing Context7..."
+        claude mcp add context7 -- npx -y @upstash/context7-mcp 2>/dev/null || npx -y @upstash/context7-mcp
+        
+        # Sequential - Complex analysis  
+        log "Installing Sequential..."
+        claude mcp add sequential-thinking -- npx -y @modelcontextprotocol/server-sequential-thinking 2>/dev/null || npx -y @modelcontextprotocol/server-sequential-thinking
+        
+        # Puppeteer - Browser automation
+        log "Installing Puppeteer..."
+        claude mcp add puppeteer -- npx -y @modelcontextprotocol/server-puppeteer 2>/dev/null || npx -y @modelcontextprotocol/server-puppeteer
+        
+    else
+        log "Claude CLI not available, using direct npx installation..."
+    fi
     
-    # Sequential - Complex analysis
-    log "Installing Sequential..."
-    npx -y @modelcontextprotocol/server-sequential-thinking
+    # Install remaining servers directly (these don't have claude mcp syntax)
     
-    # Magic - UI components  
+    # Magic - UI components (if this is the correct package)
     log "Installing Magic..."
-    npx -y @mseep/magic
+    npx -y @mseep/magic 2>/dev/null || warn "Magic installation failed - may not be the correct package"
     
     # IDE Integration
     log "Installing IDE integration..."
     npx -y @modelcontextprotocol/server-ide
     
-    # Puppeteer - Browser automation
-    log "Installing Puppeteer..."
-    npx -y @modelcontextprotocol/server-puppeteer
-    
     # Shadcn UI
     log "Installing Shadcn UI..."
     npx -y @jpisnice/shadcn-ui-mcp-server
     
-    log "MCP servers installed successfully ✓"
+    log "MCP servers installation completed ✓"
+    log "Note: Some servers may require additional configuration in Claude settings"
 }
 
-# Install Serena
+# Install Serena (CORRECTED)
 install_serena() {
     if [ "$SKIP_SERENA" = true ]; then
         warn "Skipping Serena installation (Python requirements not met)"
@@ -131,57 +142,79 @@ install_serena() {
     
     log "Installing Serena semantic code toolkit..."
     
-    # Install uvx if not present
-    if ! command -v uvx &> /dev/null; then
-        log "Installing uvx..."
+    # Install uv (not uvx!) if not present
+    if ! command -v uv &> /dev/null; then
+        log "Installing uv package manager..."
         
-        # Try different installation methods
-        if pip3 install uvx 2>/dev/null; then
-            log "uvx installed via pip3"
-        elif python3 -m pip install uvx 2>/dev/null; then
-            log "uvx installed via python3 -m pip"
-        elif python3 -m pip install --user uvx 2>/dev/null; then
-            log "uvx installed via pip --user"
+        # Install uv using official installer
+        if curl -LsSf https://astral.sh/uv/install.sh | sh 2>/dev/null; then
+            log "uv installed successfully"
+            # Add to PATH for current session
+            export PATH="$HOME/.local/bin:$PATH"
         else
-            error "Failed to install uvx. Skipping Serena installation."
-            warn "You can install Serena manually later with: pip install uvx"
+            warn "Failed to install uv automatically."
+            warn "Please install uv manually: curl -LsSf https://astral.sh/uv/install.sh | sh"
+            warn "Then re-run this script."
             return
         fi
     fi
     
-    # Install Serena with error handling
-    log "Installing Serena from GitHub..."
-    if uvx --from git+https://github.com/oraios/serena serena-mcp-server --context ide-assistant --project $(pwd) 2>/dev/null; then
-        log "Serena installed successfully ✓"
+    # Install Serena with correct uv command
+    log "Installing Serena from GitHub using uv..."
+    if uv tool install --from git+https://github.com/oraios/serena serena-mcp-server 2>/dev/null; then
+        log "Serena installed successfully with uv tool ✓"
+    elif uvx --from git+https://github.com/oraios/serena serena-mcp-server 2>/dev/null; then
+        log "Serena installed successfully with uvx fallback ✓"
     else
-        warn "Serena installation failed. This is often due to Python version issues."
-        warn "Try: 1) Update Python to 3.8+ 2) Run: pip install uvx 3) Re-run this script"
-        warn "SuperClaude will work without Serena, but you'll miss some advanced features."
+        warn "Serena installation failed. This is often due to Python/uv version issues."
+        warn "Manual install: 1) Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
+        warn "2) Then: uv tool install --from git+https://github.com/oraios/serena serena-mcp-server"
+        warn "SuperClaude will work without Serena, but you'll miss advanced code analysis features."
     fi
 }
 
-# Install Claude Code Usage Monitor
+# Install Claude Code Usage Monitor (CORRECTED)
 install_usage_monitor() {
     log "Installing Claude Code Usage Monitor..."
     
-    # Try uv first (recommended), fallback to pip
+    # Method 1: Try uv first (preferred)
     if command -v uv &> /dev/null; then
-        log "Installing with uv..."
-        uv tool install claude-monitor
-    elif command -v pipx &> /dev/null; then
-        log "Installing with pipx..."
-        pipx install claude-monitor
-    else
-        log "Installing with pip..."
-        pip3 install claude-monitor
-        
-        # Add to PATH reminder
-        if ! command -v claude-monitor &> /dev/null; then
-            warn "Add ~/.local/bin to PATH: export PATH=\"\$HOME/.local/bin:\$PATH\""
+        log "Installing with uv (preferred method)..."
+        if uv tool install claude-monitor 2>/dev/null; then
+            log "Claude Code Usage Monitor installed successfully with uv ✓"
+            return
+        else
+            warn "uv installation failed, trying alternative methods..."
         fi
     fi
     
-    log "Claude Code Usage Monitor installed successfully ✓"
+    # Method 2: Try pipx (isolated environment)
+    if command -v pipx &> /dev/null; then
+        log "Installing with pipx..."
+        if pipx install claude-monitor 2>/dev/null; then
+            log "Claude Code Usage Monitor installed successfully with pipx ✓"
+            return
+        else
+            warn "pipx installation failed, trying pip..."
+        fi
+    fi
+    
+    # Method 3: Fallback to pip
+    log "Installing with pip (fallback)..."
+    if pip3 install claude-monitor 2>/dev/null; then
+        log "Claude Code Usage Monitor installed successfully with pip ✓"
+        
+        # Check if command is available, if not provide PATH guidance
+        if ! command -v claude-monitor &> /dev/null; then
+            warn "claude-monitor command not found in PATH"
+            warn "Add to PATH: export PATH=\"\$HOME/.local/bin:\$PATH\""
+            warn "Or restart your terminal"
+        fi
+    else
+        error "Failed to install Claude Code Usage Monitor with all methods"
+        warn "Manual install: pip install claude-monitor"
+        warn "Or with uv: uv tool install claude-monitor"
+    fi
 }
 
 # Setup configuration files
