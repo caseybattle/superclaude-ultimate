@@ -8,6 +8,22 @@
 > **The most comprehensive AI-powered development framework ever created**  
 > A complete ecosystem with 25 intelligent commands, 9 expert personas, 6 MCP servers, and 9 specialized agents that automatically detect what you need and assign the right expert with the right tools.
 
+## What's Included
+
+SuperClaude Ultimate includes **two types of components**:
+
+### 🏗️ **Built-In Framework**
+- **25 Commands** → Complete command system (included in repo)
+- **9 Personas** → Expert cognitive specialists (included in repo)  
+- **9 Agents** → Specialized task handlers (included in repo)
+- **Universal Flags** → Inheritance system (included in repo)
+- **Configuration** → Complete setup files (included in repo)
+
+### 📦 **Auto-Installed Tools** 
+- **6 MCP Servers** → Installed by our scripts during setup
+- **Claude Code Usage Monitor** → Installed by our scripts during setup
+- **Serena Toolkit** → Installed by our scripts during setup
+
 ## What Makes This Special
 
 SuperClaude doesn't just give you AI assistance - it gives you a **complete development team**:
@@ -24,15 +40,20 @@ SuperClaude doesn't just give you AI assistance - it gives you a **complete deve
 ## Quick Start (3 Commands)
 
 ```bash
-# 1. Clone the framework
+# 1. Clone the framework (gets commands, personas, agents, config)
 git clone https://github.com/caseybattle/superclaude-ultimate ~/.claude
 
-# 2. Run one-click installation
+# 2. Run one-click installation (auto-installs MCP servers, monitor, Serena)
 chmod +x ~/.claude/scripts/install.sh && ~/.claude/scripts/install.sh
 
-# 3. Test your setup
-claude /analyze --help
+# 3. Test everything works
+claude /analyze --help && claude-monitor --version
 ```
+
+**What Just Happened:**
+- ✅ **Downloaded**: 25 commands, 9 personas, 9 agents, config files
+- ✅ **Auto-installed**: 6 MCP servers, Usage Monitor, Serena toolkit  
+- ✅ **Ready**: Complete AI development system with monitoring
 
 **That's it!** You now have the most powerful AI development system ever created.
 
@@ -132,11 +153,13 @@ Running: Full application generation workflow
 - **Serena** → Semantic code analysis & editing toolkit
 - **Shadcn UI** → Design system components
 
-### **Claude Code Usage Monitor (Integrated)**
+### **Claude Code Usage Monitor (Auto-Installed)**
 - **Real-time monitoring** → Horizontal progress bars in terminal
-- **Session tracking** → 5-hour windows with burn rate analytics
+- **Session tracking** → 5-hour windows with burn rate analytics  
 - **Cost optimization** → Model-specific pricing with P90 analysis
 - **Plan detection** → Pro/Max5/Max20/Custom with auto-switching
+- **Installation** → Automatically installed by our setup scripts
+- **Creator** → [Maciek-roboblog/Claude-Code-Usage-Monitor](https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor)
 
 ## 🚀 **25 Intelligent Commands**
 
