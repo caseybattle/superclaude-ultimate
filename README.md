@@ -5,8 +5,6 @@
 [![Production Ready](https://img.shields.io/badge/Production-Ready-green.svg)](https://github.com/caseybattle/superclaude-ultimate)
 [![MCP Servers](https://img.shields.io/badge/MCP-6_Servers-purple.svg)](docs/07-mcp-servers.md)
 
-![SuperClaude Architecture](docs/images/superclaude-architecture.png)
-
 > **The most comprehensive AI-powered development framework ever created**  
 > A complete ecosystem with 25 intelligent commands, 9 expert personas, 6 MCP servers, and 9 specialized agents that automatically detect what you need and assign the right expert with the right tools.
 
@@ -353,6 +351,38 @@ MIT License - Use freely in personal and commercial projects.
 - **🔒 Secure:** Enterprise-grade security standards built-in
 - **📚 Professional:** Masterpiece-level documentation and examples
 - **🎯 Production-Ready:** Used for real applications and serious development
+
+## Acknowledgments & Credits
+
+This framework was inspired by and built upon the excellent work of:
+
+### Core Inspirations
+- **[SuperClaude Framework](https://github.com/NomenAK/SuperClaude)** by **NomenAK** - Original SuperClaude configuration framework (5.7K+ stars)
+- **[SuperClaude v3](https://github.com/SuperClaude-Org/SuperClaude_Framework)** by **SuperClaude-Org** - Advanced development framework with specialized commands and cognitive personas
+- **[Serena](https://github.com/oraios/serena)** by **Oraios AI** - Powerful coding agent toolkit providing semantic retrieval and AI optimization capabilities
+
+### Foundation Technologies
+- **[Claude Code](https://github.com/anthropics/claude-code)** by **Anthropic** - The foundational AI development platform
+- **[Model Context Protocol (MCP)](https://github.com/modelcontextprotocol)** by **Anthropic** - Enables specialized tool integration
+
+### MCP Server Creators
+- **[Context7](https://github.com/upstash/context7-mcp)** by **Upstash** - Official library documentation lookup
+- **[Sequential Thinking](https://github.com/modelcontextprotocol/server-sequential-thinking)** by **Anthropic** - Complex multi-step analysis
+- **[Magic](https://github.com/mseep/magic)** by **mseep** - UI component generation
+- **[Puppeteer Server](https://github.com/modelcontextprotocol/server-puppeteer)** by **Anthropic** - Browser automation and testing
+- **[Shadcn UI MCP](https://github.com/jpisnice/shadcn-ui-mcp-server)** by **jpisnice** - Design system components
+
+### Special Thanks
+- The **NomenAK community** for pioneering the SuperClaude concept and making it open source
+- **Oraios AI** for creating Serena's cost-effective AI optimization that makes this framework accessible
+- **Anthropic** for Claude Code and the MCP ecosystem that powers these integrations
+- All the **open source contributors** who built the tools and servers this framework integrates
+
+*This project stands on the shoulders of giants. We're grateful to these creators for their innovative work and commitment to open source development.*
+
+## License
+
+MIT License - Use freely in personal and commercial projects.
 
 ---
 
